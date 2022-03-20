@@ -1,0 +1,3 @@
+*.py[doc]
+temp
+*.bin
