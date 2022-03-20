@@ -1,0 +1,2 @@
+cd src
+python train.py -task abs -mode validate -batch_size 3000 -test_batch_size 500 -bert_data_path ../bert_data/bert_data_cnndm_final/ -log_file ../logs/val_abs_bert_cnndm -model_path ../models/  -sep_optim true -use_interval true -visible_gpus -1 -max_pos 512 -max_length 200 -alpha 0.95 -min_length 50 -result_path ../logs/abs_bert_cnndm 

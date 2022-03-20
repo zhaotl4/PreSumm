@@ -151,8 +151,10 @@ def validate_abs(args, device_id):
                 if (time_of_cp > timestep):
                     timestep = time_of_cp
                     step = int(cp.split('.')[-2].split('_')[-1])
+                    print('begin run')
                     validate(args, device_id, cp, step)
                     test_abs(args, device_id, cp, step)
+                    break
 
             cp_files = sorted(glob.glob(os.path.join(args.model_path, 'model_step_*.pt')))
             cp_files.sort(key=os.path.getmtime)

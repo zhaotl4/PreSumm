@@ -185,8 +185,13 @@ class Trainer(object):
         self.model.eval()
         stats = Statistics()
 
+        cnt = 0
         with torch.no_grad():
             for batch in valid_iter:
+                if cnt == 1:
+                    break
+                cnt += 1
+                print('validate')
                 src = batch.src
                 tgt = batch.tgt
                 segs = batch.segs

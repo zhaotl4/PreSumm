@@ -140,8 +140,13 @@ class Translator(object):
 
         # pred_results, gold_results = [], []
         ct = 0
+        cnt = 0
         with torch.no_grad():
             for batch in data_iter:
+                if cnt ==1:
+                    break
+                print('translate')
+                cnt += 1
                 if(self.args.recall_eval):
                     gold_tgt_len = batch.tgt.size(1)
                     self.min_length = gold_tgt_len + 20
