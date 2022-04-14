@@ -120,6 +120,30 @@ class Translator(object):
 
         return translations
 
+    def generate_summary(self,data_iter):
+        self.model.eval()
+        summary = []
+        ct = 0
+        with torch.no_grad():
+            for batch in data_iter:
+                if(self.args.recall_eval):
+                    gold_tgt_len = batch.tgt.size(1)
+                    self.min_length = gold_tgt_len + 10
+                    self.max_length = gold_tgt_len + 20
+                batch_data = self.translate_batch(batch)
+                translations = self.from_batch(batch_data)
+
+                for trans in translations:
+                    pred, gold, src = trans
+                    pred_str = pred.replace('[unused0]', '').replace('[unused3]', '').replace('[PAD]', '').replace('[unused1]', '').replace(r' +', ' ').replace(' [unused2] ', '<q>').replace('[unused2]', '').strip()
+                    gold_str = gold.strip()
+                    if(self.args.recall_eval):
+                        pred_str = ' '.join(pred_str.split()[:len(gold_str.split())])
+                    # print('pred : ',pred_str)
+                    summary.append(pred_str)
+                    ct += 1
+        return summary
+        
     def translate(self,
                   data_iter, step,
                   attn_debug=False):
@@ -170,7 +194,7 @@ class Translator(object):
 
 
                         pred_str = ' '.join(pred_str.split()[:len(gold_str.split())])
-
+                    # print('pred : ',pred_str)
                     self.can_out_file.write(pred_str + '\n')
                     self.gold_out_file.write(gold_str + '\n')
                     self.src_out_file.write(src.strip() + '\n')

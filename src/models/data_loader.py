@@ -327,6 +327,7 @@ def load_text(args, source_fp, target_fp, device):
     if(target_fp==''):
         with open(source_fp) as source:
             for x in tqdm(source, total=n_lines):
+                print('batch: ',x )
                 src, mask_src, segments_ids, clss, mask_cls = _process_src(x)
                 segs = torch.tensor(segments_ids)[None, :].to(device)
                 batch = Batch()

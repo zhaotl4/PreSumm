@@ -282,6 +282,7 @@ class Trainer(object):
                             pred.append(_pred)
                             gold.append(batch.tgt_str[i])
 
+                        print('pred : ',pred)
                         for i in range(len(gold)):
                             save_gold.write(gold[i].strip() + '\n')
                         for i in range(len(pred)):
